@@ -1,28 +1,44 @@
 import 'package:aviatourne/theme/colors/color_manager.dart';
+import 'package:aviatourne/ui/airline_page/views/airline_page.dart';
 import 'package:aviatourne/ui/login_page/view_models/login_view_model.dart';
 import 'package:aviatourne/widgets/postive_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-class LoginPage extends StatelessWidget {
-  final _passwordController = TextEditingController();
-
-  LoginPage({
+class LoginPage extends StatefulWidget {
+  const LoginPage({
     ColorManager? colorManager,
     Key? key,
   }) : super(key: key);
 
   @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _passwordController = TextEditingController();
+
+  final _passwordFocusNode = FocusNode();
+
+  late final viewModel = Provider.of<LoginViewModel>(context);
+
+  @override
+  void initState() {
+    super.initState();
+    _passwordFocusNode.addListener(() {
+      viewModel.isPasswordHasFocus = _passwordFocusNode.hasFocus;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ColorManager colorManager = ColorManager();
-    final viewModel = Provider.of<LoginViewModel>(context);
-
     return Material(
       child: SafeArea(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          backgroundColor: const Color(0xFF333334),
+          backgroundColor: colorManager.theme.appBlack,
           body: Stack(
             children: [
               Image.asset(
@@ -40,8 +56,7 @@ class LoginPage extends StatelessWidget {
                   const SizedBox(
                     height: 22,
                   ),
-                  SvgPicture.asset('assets/images/aviatourne_header.svg',
-                      semanticsLabel: 'Acme Logo'),
+                  SvgPicture.asset('assets/images/aviatourne_header.svg'),
                   const SizedBox(
                     height: 6,
                   ),
@@ -56,13 +71,14 @@ class LoginPage extends StatelessWidget {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
+                              backgroundColor: Colors.transparent,
                               contentPadding: EdgeInsets.zero,
                               content: Container(
                                 height: 258,
                                 width: double.maxFinite,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
-                                    color: const Color(0xff737677)),
+                                    color: colorManager.theme.appGrey),
                                 child: ListView.builder(
                                   itemBuilder: (context, index) {
                                     return InkWell(
@@ -76,8 +92,9 @@ class LoginPage extends StatelessWidget {
                                             top: 16, left: 16, right: 16),
                                         child: Text(
                                           viewModel.users[index],
-                                          style: const TextStyle(
-                                              color: Colors.white),
+                                          style: TextStyle(
+                                              color:
+                                                  colorManager.theme.appWhite),
                                         ),
                                       ),
                                     );
@@ -94,7 +111,7 @@ class LoginPage extends StatelessWidget {
                       margin: const EdgeInsets.symmetric(horizontal: 40),
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       decoration: BoxDecoration(
-                        color: const Color(0xff4D4D4D),
+                        color: colorManager.theme.cardBackground,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Row(
@@ -102,11 +119,12 @@ class LoginPage extends StatelessWidget {
                         children: [
                           Text(
                             viewModel.userNameText,
-                            style: const TextStyle(color: Colors.white),
+                            style:
+                                TextStyle(color: colorManager.theme.appWhite),
                           ),
-                          const Icon(
+                          Icon(
                             Icons.arrow_drop_down_sharp,
-                            color: Colors.white,
+                            color: colorManager.theme.appWhite,
                             size: 20,
                           )
                         ],
@@ -122,13 +140,19 @@ class LoginPage extends StatelessWidget {
                     margin: const EdgeInsets.symmetric(horizontal: 40),
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
-                      color: const Color(0xff4D4D4D),
+                      color: viewModel.isPasswordHasFocus
+                          ? colorManager.theme.cardBackgroundFocused
+                          : colorManager.theme.cardBackground,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: TextFormField(
                       controller: _passwordController,
                       obscureText: true,
-                      style: const TextStyle(color: Colors.white),
+                      focusNode: _passwordFocusNode,
+                      style: TextStyle(
+                          color: viewModel.isPasswordHasFocus
+                              ? colorManager.theme.appBlack
+                              : colorManager.theme.appWhite),
                       decoration: const InputDecoration(
                         // labelText: 'password',
                         border: InputBorder.none,
@@ -143,8 +167,16 @@ class LoginPage extends StatelessWidget {
                     padding: const EdgeInsets.all(40.0),
                     child: PositiveButton(
                         label: 'Login',
+                        backgroundColor:
+                            colorManager.theme.positiveBackgroundLight,
                         onPressed: () {
                           viewModel.validateUser(_passwordController.text);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const AirlinePage(),
+                            ),
+                          );
                         }),
                   )
                 ],

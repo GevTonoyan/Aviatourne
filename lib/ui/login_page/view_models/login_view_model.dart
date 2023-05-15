@@ -22,6 +22,15 @@ class LoginViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _isPasswordHasFocus = false;
+
+  bool get isPasswordHasFocus => _isPasswordHasFocus;
+
+  set isPasswordHasFocus(bool value) {
+    _isPasswordHasFocus = value;
+    notifyListeners();
+  }
+
   Future<void> _getUsers() async {
     try {
       _users = await _usersService.getUsers();
