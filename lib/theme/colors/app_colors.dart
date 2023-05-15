@@ -11,6 +11,8 @@ abstract class AppColors {
   abstract final Color description;
   abstract final Color divider;
   abstract final Color informationText;
+  abstract final Color flightServiceCardBorder;
+  abstract final Color appRed;
 }
 
 class MainTheme extends AppColors {
@@ -39,4 +41,10 @@ class MainTheme extends AppColors {
 
   @override
   Color get informationText => const Color(0xff666666);
+
+  @override
+  Color get flightServiceCardBorder => const Color(0xffE6E6E6);
+
+  @override
+  Color get appRed => const Color(0xffC11C30);
 }

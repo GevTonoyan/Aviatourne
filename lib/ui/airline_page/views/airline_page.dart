@@ -1,10 +1,14 @@
 import 'dart:math';
 
 import 'package:aviatourne/theme/colors/color_manager.dart';
+import 'package:aviatourne/ui/airline_page/view_models/airline_view_model.dart';
 import 'package:aviatourne/ui/flight_info_screen/views/flight_info_screen.dart';
+import 'package:aviatourne/ui/flight_services_screen/views/flight_services_screen.dart';
+import 'package:aviatourne/widgets/dropdown_card.dart';
 import 'package:aviatourne/widgets/postive_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 class AirlinePage extends StatefulWidget {
   const AirlinePage({Key? key}) : super(key: key);
@@ -14,6 +18,8 @@ class AirlinePage extends StatefulWidget {
 }
 
 class _AirlinePageState extends State<AirlinePage> {
+  late final viewModel = Provider.of<AirlineViewModel>(context);
+
   @override
   Widget build(BuildContext context) {
     final colorManager = ColorManager();
@@ -38,13 +44,7 @@ class _AirlinePageState extends State<AirlinePage> {
                               fontSize: 10),
                         ),
                         const SizedBox(height: 2),
-                        Container(
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: const Color(0xffE6E6E6)),
-                          ),
-                        ),
+                        const DropDownCard(label: '6R'),
                       ],
                     ),
                   ),
@@ -62,19 +62,11 @@ class _AirlinePageState extends State<AirlinePage> {
                               fontSize: 10),
                         ),
                         const SizedBox(height: 2),
-                        Container(
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: const Color(0xffE6E6E6)),
-                          ),
-                        ),
+                        const DropDownCard(label: '533'),
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    width: 10,
-                  ),
+                  const SizedBox(width: 10),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,13 +78,7 @@ class _AirlinePageState extends State<AirlinePage> {
                               fontSize: 10),
                         ),
                         const SizedBox(height: 2),
-                        Container(
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: const Color(0xffE6E6E6)),
-                          ),
-                        ),
+                        const DropDownCard(label: 'EIFCH')
                       ],
                     ),
                   ),
@@ -311,18 +297,23 @@ class _AirlinePageState extends State<AirlinePage> {
               ),
             ),
             Container(height: 10, color: Colors.grey.shade200),
-            const Expanded(
+            Expanded(
               child: SingleChildScrollView(
-                child: FlightInfoScreen(),
+                child: viewModel.flightBody == FlightBody.flightInfo
+                    ? const FlightInfoScreen()
+                    : const FlightServicesScreen(),
               ),
             ),
-//            Spacer(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: PositiveButton(
-                label: 'Далее',
+                label: viewModel.flightBody == FlightBody.flightInfo
+                    ? 'Далее'
+                    : 'Загрузить',
                 backgroundColor: colorManager.theme.positiveBackgroundDark,
-                onPressed: () {},
+                onPressed: () {
+                  viewModel.flightBody = FlightBody.flightServices;
+                },
               ),
             ),
             Padding(

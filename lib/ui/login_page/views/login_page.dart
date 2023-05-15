@@ -1,4 +1,5 @@
 import 'package:aviatourne/theme/colors/color_manager.dart';
+import 'package:aviatourne/ui/airline_page/view_models/airline_view_model.dart';
 import 'package:aviatourne/ui/airline_page/views/airline_page.dart';
 import 'package:aviatourne/ui/login_page/view_models/login_view_model.dart';
 import 'package:aviatourne/widgets/postive_button.dart';
@@ -174,7 +175,10 @@ class _LoginPageState extends State<LoginPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const AirlinePage(),
+                              builder: (context) => ChangeNotifierProvider(
+                                create: (_) => AirlineViewModel(),
+                                child: const AirlinePage(),
+                              ),
                             ),
                           );
                         }),

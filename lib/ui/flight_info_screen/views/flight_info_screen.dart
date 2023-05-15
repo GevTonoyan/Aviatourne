@@ -1,4 +1,5 @@
 import 'package:aviatourne/theme/colors/color_manager.dart';
+import 'package:aviatourne/widgets/dropdown_card.dart';
 import 'package:flutter/material.dart';
 
 class FlightInfoScreen extends StatelessWidget {
@@ -29,12 +30,21 @@ class FlightInfoScreen extends StatelessWidget {
                   fontSize: 14,
                 ),
               ),
-              Text(
-                '14:52',
-                style: TextStyle(
-                    color: colorManager.theme.appBlack,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700),
+              InkWell(
+                onTap: () {
+                  showTimePicker(
+                    context: context,
+                    initialTime: TimeOfDay.now(),
+                    helpText: 'SELECT TIME',
+                  );
+                },
+                child: Text(
+                  '22:10',
+                  style: TextStyle(
+                      color: colorManager.theme.appBlack,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700),
+                ),
               ),
             ],
           ),
@@ -56,9 +66,9 @@ class FlightInfoScreen extends StatelessWidget {
                 ),
               ),
               Text(
-                '14:52',
+                'Указать',
                 style: TextStyle(
-                    color: colorManager.theme.appBlack,
+                    color: colorManager.theme.positiveBackgroundDark,
                     fontSize: 14,
                     fontWeight: FontWeight.w700),
               ),
@@ -137,13 +147,7 @@ class FlightInfoScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 5),
-          Container(
-            height: 40,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: const Color(0xffE6E6E6)),
-            ),
-          ),
+          const DropDownCard(label: 'Без ротации'),
           const SizedBox(height: 10),
           Row(
             children: [
@@ -158,13 +162,7 @@ class FlightInfoScreen extends StatelessWidget {
                           fontSize: 11),
                     ),
                     const SizedBox(height: 2),
-                    Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: const Color(0xffE6E6E6)),
-                      ),
-                    ),
+                    const DropDownCard(label: '32'),
                   ],
                 ),
               ),
@@ -182,13 +180,7 @@ class FlightInfoScreen extends StatelessWidget {
                           fontSize: 11),
                     ),
                     const SizedBox(height: 2),
-                    Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: const Color(0xffE6E6E6)),
-                      ),
-                    ),
+                    const DropDownCard(label: '146'),
                   ],
                 ),
               ),
@@ -206,19 +198,11 @@ class FlightInfoScreen extends StatelessWidget {
                           fontSize: 11),
                     ),
                     const SizedBox(height: 2),
-                    Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: const Color(0xffE6E6E6)),
-                      ),
-                    ),
+                    const DropDownCard(label: '17'),
                   ],
                 ),
               ),
-              const SizedBox(
-                width: 10,
-              ),
+              const SizedBox(width: 10),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -230,19 +214,15 @@ class FlightInfoScreen extends StatelessWidget {
                           fontSize: 11),
                     ),
                     const SizedBox(height: 2),
-                    Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: const Color(0xffE6E6E6)),
-                      ),
-                    ),
+                    const DropDownCard(label: '10'),
                   ],
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 32,)
+          const SizedBox(
+            height: 32,
+          )
         ],
       ),
     );
